@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc"  
+    xmlns:cache="http://www.springframework.org/schema/cache"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd  
+                        http://www.springframework.org/schema/mvc  
+                        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd  
+                        http://www.springframework.org/schema/cache  
+                        http://www.springframework.org/schema/cache/spring-cache-3.2.xsd  
+                        http://www.springframework.org/schema/context  
+                        http://www.springframework.org/schema/context/spring-context-3.2.xsd">  
+    
+    <context:component-scan base-package="com.littlezheng" />  
+    <cache:annotation-driven cache-manager="cacheManager"/>
+    
+    <!-- Spring自带的Cache!!! Spring自己的基于java.util.concurrent.ConcurrentHashMap实现的缓存管理器(该功能是从Spring3.1开始提供的) -->  
+    <!--   
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">  
+        <property name="caches">  
+            <set>  
+                <bean name="movieFindCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>  //对应@Cacheable(value="movieFindCache"
+            </set>  
+        </property>  
+    </bean>  
+     -->  
+     
+   <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">  
+        <property name="configLocation" value="classpath:ehcache.xml"/>  
+    </bean>  
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">  
+        <property name="cacheManager" ref="cacheManagerFactory"/>  
+    </bean>
+    
+    <bean id="userDao" class="com.littlezheng.dao.UserDao"/>
+   	<bean id="userService" class="com.littlezheng.service.UserService">
+   		<property name="userDao" ref="userDao"></property>
+   	</bean>
+    
+</beans>
