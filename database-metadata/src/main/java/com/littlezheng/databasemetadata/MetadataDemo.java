@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,13 @@ public class MetadataDemo {
 	private static final String DATABASE = "test2";
 	
 	public static void main(String[] args) throws SQLException, IOException {
-		printTableAndColumnInfo();
+//		printTableAndColumnInfo();
+		try(Connection conn = JDBCUtils.getConnection()){
+			Statement stmt = conn.createStatement();
+			for(Map<String, Object> line : JDBCUtils.getLines(stmt.executeQuery("DESC T_Person"))){
+				System.out.println(line);
+			}
+		}
 	}
 	
 	public static void printTableAndColumnInfo() throws SQLException{
