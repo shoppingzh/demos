@@ -2,10 +2,78 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
-<link type="text/css" href="static/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">
+<link rel="stylesheet" href="/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">
+<script type="text/javascript" src="/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
 </head>
 <body>
+
+	<div data-role="page" id="indexPage">
+		<div data-role="header"><h3>查看用户</h3></div>
+		<div role="main" class="ui-content">
+			<ul id="users" data-role="listview"></ul>
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div class="ui-grid-solo">
+				<div class="ui-block-a">
+					<a href="javascript:;" class="ui-btn ui-btn-active ui-corner-all" style="display: block;">添加用户</a>
+				</div>
+			</div>
+		</div> 
+	</div>
+	
+	<div data-role="page" id="detailPage">
+		<div data-role="header"><h3>用户详情</h3></div>
+		<div role="main" class="ui-content">
+			<ul id="detail" data-role="listview"></ul>
+		</div>
+	</div>
+
+<script type="text/javascript">
+$(document).on({
+	'pageshow': function(){
+		loadUsers();
+	}
+}, '[data-role=page]#indexPage');
+
+$(document).on({
+	'pageinit': function(){
+		showDetail();
+	}
+}, '[data-role=page]#detailPage');
+
+function loadUsers(){
+	$.mobile.loading('show');
+	$.ajax({
+		url: '/user',
+		type: 'GET',
+		data: {},
+		success: function(result){
+			var container = $('#users').empty();
+			$.each(result, function(i, v){
+				var head = $('<h3></h3>').text(v.name);
+				
+				var item = $('<a data-role="page" data-transition="flip" href="#detailPage"></a>')
+					.append(head)
+					.append($('<p></p>').text('年龄: ' + v.age))
+					.append($('<p></p>').text('账号: ' + v.account))
+					.appendTo($('<li></li>').appendTo(container));
+			});
+			container.listview('refresh');
+			$.mobile.loading('hide');
+		},
+		error: function(){
+			
+		}
+	});
+}
+
+function showDetail(){
+	
+}
+</script>
 
 </body>
 </html>
