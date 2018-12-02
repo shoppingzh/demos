@@ -27,7 +27,7 @@
 		</where>
 	</sql>
 
-	<insert id="insert" parameterType="User" >
+	<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 		INSERT INTO t_user
 		(id, account, password, name, age)
 		VALUES
