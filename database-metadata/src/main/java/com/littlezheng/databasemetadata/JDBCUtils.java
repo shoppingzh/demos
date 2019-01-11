@@ -35,6 +35,10 @@ public class JDBCUtils {
 		}
 	}
 	
+	public static void desc(String tableName){
+		
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static List<Map<String, Object>> getLines(ResultSet rs)
 			throws SQLException {
