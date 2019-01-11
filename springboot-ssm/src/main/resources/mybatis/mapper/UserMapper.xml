@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.littlezheng.springbootssm.dao.UserMapper">
+
+	<resultMap type="User" id="userMap">
+		<id column="id" property="id"/>
+		<result column="account" property="account" javaType="String"/>
+		<result column="password" property="password" javaType="String"/>
+		<result column="name" property="name" javaType="String"/>
+		<result column="age" property="age" javaType="Integer"/>
+	</resultMap>
+
+	<sql id="allCols">
+		id, account, password, name, age
+	</sql>
+	
+	<sql id="conditions">
+		<where>
+			<if test="id != null">id = #{id}</if>
+			<if test="account != null">AND account = #{id}</if>
+			<if test="password != null">AND password = #{password}</if>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="age != null">AND age = #{age}</if>
+		</where>
+	</sql>
+
+	<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO t_user
+		(id, account, password, name, age)
+		VALUES
+		(#{id}, #{account}, #{password}, #{name}, #{age})
+	</insert>
+	
+	<update id="update" parameterType="User">
+		UPDATE t_user
+		<set>
+			<if test="account != null">
+				account = #{account},
+			</if>
+			<if test="password != null">
+				password = #{password}
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="age != null">
+				age = #{age}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM t_user
+		WHERE id = #{param1}
+	</delete>
+	
+	<select id="selectAll" resultMap="userMap">
+		SELECT <include refid="allCols"></include>
+		FROM t_user
+	</select>
+	
+	<select id="select" resultMap="userMap" parameterType="User">
+		SELECT <include refid="allCols"></include>
+		FROM t_user
+		<include refid="conditions"></include>
+	</select>
+
+</mapper>
