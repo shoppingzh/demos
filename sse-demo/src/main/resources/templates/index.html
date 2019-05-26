@@ -1,0 +1,20 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    Hi!
+
+    <script>
+        var es = new EventSource('sse');
+
+        es.addEventListener('message', function(e){
+            console.log('接收到数据：' + e);
+        });
+    </script>
+</body>
+</html>
