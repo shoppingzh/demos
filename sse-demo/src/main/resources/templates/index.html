@@ -13,7 +13,8 @@
         var es = new EventSource('sse');
 
         es.addEventListener('message', function(e){
-            console.log('接收到数据：' + e);
+            
+            console.log(e.data);
         });
     </script>
 </body>

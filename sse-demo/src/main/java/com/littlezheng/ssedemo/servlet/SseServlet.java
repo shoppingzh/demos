@@ -55,7 +55,7 @@ public class SseServlet extends HttpServlet {
                 try {
                     Thread.sleep(500);
                     wt = ac.getResponse().getWriter();
-                    wt.println("data:" + new Date() + "\r\n");  //js页面EventSource接收数据格式：data：数据 + "\r\n"
+                    wt.println("data:" + new Date() + "\r\n");
                     wt.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
