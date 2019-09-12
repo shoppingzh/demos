@@ -23,7 +23,7 @@ public class SseServlet extends HttpServlet {
         resp.setContentType("text/event-stream");
         resp.setCharacterEncoding("UTF-8");
         req.setAttribute("org.apache.catalina.ASYNC_SUPPORTED", true);//注意这里
-        
+        System.out.println(Thread.currentThread().getName());
         AsyncContext ac = req.startAsync(req, resp);
         ac.setTimeout(6000);
         ac.addListener(new AsyncListener() {
@@ -64,6 +64,12 @@ public class SseServlet extends HttpServlet {
                 }
             }
         }).start();
+        
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     
 }
